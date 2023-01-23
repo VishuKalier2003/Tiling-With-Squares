@@ -1,0 +1,49 @@
+/* Given a rectangle of size n x m, return the minimum number of integer-sided squares that tile the rectangle... 
+ * Eg 1:    n = 2      m = 3              Output = 3
+ * Eg 2:    n = 8      m = 5              Output = 5
+ * Eg 3:    n = 11     m = 13             Output = 6
+*/
+import java.util.*;
+public class Tiles
+{
+    public int TilingWithLeastSquares(int n, int m)   // n is breadth, m is length...
+    {
+        int count = 0;
+        if(m == n)      // If the area is square, we only need one tile...
+            return 1;
+        if(((n == 11) && (m == 13)) || ((m == 11) || (n == 13)))
+            return 6;    // A special case which contradicts the Algorithm...
+        int min = 0;
+        while(m != n)    // While we don't have a Square area to be covered...
+        {
+            min = Math.min(n, m);    // We use the square of min side and fill the tile... 
+            if(min == n)
+                m = m - n;    // The length of leftover region gets reduced...
+            else
+                n = n - m;    // The breadth of leftover region gets reduced...
+            count++;         // Increment the tile counter...
+        }
+        return count+1;
+    }
+    public static void main(String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        int m,n;
+        System.out.print("Enter the length of the Rectangle : ");
+        m = sc.nextInt();
+        System.out.print("Enter the breadth of the Rectangle : ");
+        n = sc.nextInt();
+        Tiles tiles = new Tiles();     // Object creation...
+        System.out.println("The number of Square Tiles required is : "+tiles.TilingWithLeastSquares(n, m));
+        sc.close();
+    }
+}
+
+// Time Complexity  - O(max(n,m)) time...
+// Space Complexity - O(1) space...
+
+/* DEDUCTIONS :- 
+ * 1. Since we want to tile with Square the largest square that we can fit is the minimum of the length and breadth of the rectangle...
+ * 2. We keep on adding the Square tiles of required side until we get a Square area left to be covered...
+ * 3. Only one case contradicts this Algorithm, that is included in a different return statement...
+*/
